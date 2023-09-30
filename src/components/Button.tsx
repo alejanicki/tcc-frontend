@@ -11,7 +11,7 @@ const button = tv({
     variants: {
         color: {
             primary: "bg-primary-500 text-white font-audiowide",
-            secondary: "bg-primary-500 text-balck",
+            secondary: "bg-none-500 text-primary-500 font-audiowide",
             third: "bg-red-500 text-white",
             success: "bg-emerald-500 text-white",
             loading: "bg-pink-600 text-white",

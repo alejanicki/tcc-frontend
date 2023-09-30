@@ -14,7 +14,7 @@ const config: Config = {
         'darkGrey-500': '#d9d9d9',
       },
       fontFamily: {
-        'Astigmatic': ['Audiowide']
+        'audiowide': ['Audiowide']
       }
     }
   },

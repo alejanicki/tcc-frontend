@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import Button from "@/components/button";
 import Link from "next/link";
 import "@fontsource/audiowide";
 
@@ -19,7 +19,7 @@ export default function Home() {
             </p>
           </div>
           <div className=" flex-col justify-center mx-14 my-auto text-3xl xl:ml-48 xl:mr-2 xl:text-5xl">
-            <Link href={"/deposit"}>
+            <Link href={"/login"}>
               <Button color="primary" style={{width: '88%', height: '115px'}}>DEPOSITAR</Button>
             </Link>
             <Link href={"/register"}>

@@ -7,10 +7,10 @@ import "@fontsource/audiowide";
 
 
 const button = tv({
-    base: "flex items-center justify-center font-medium bg-zinc-500 text-white rounded-full active:opacity-80",
+    base: "flex h-full w-full p-2 items-center justify-center font-medium bg-zinc-500 text-white rounded-full active:opacity-80",
     variants: {
         color: {
-            primary: "bg-primary-500 text-white font-audiowide",
+            primary: "bg-primary-500 text-white font-audiowide w-full h-full",
             secondary: "bg-none-500 text-primary-500 font-audiowide",
             third: "bg-white text-primary-500 rounded-3xl border border-primary-500",
             disabledOne: "bg-lightGrey-500",

@@ -1,10 +1,10 @@
 import { tv } from 'tailwind-variants';
 
 const input = tv({
-    base: "flex w-full font-sm bg-darkGrey-500 rounded-md focus:outline-none px-2 py-0.5",
+    base: "flex w-full h-full font-sm bg-darkGrey-500 rounded-md focus:outline-none px-2 py-0.5",
     variants: {
         color: {
-            primary: "bg-none text-white font-audiowide",
+            primary: "bg-transparent text-primary-500 border-b-darkGrey-500 border-b-2 placeholder:text-primary-500",
             secondary: "bg-none-500 text-primary-500 font-audiowide",
             third: "bg-white text-primary-500 rounded-3xl border border-primary-500",
             disabledOne: "bg-lightGrey-500",
@@ -15,10 +15,8 @@ const input = tv({
     }
 });
 
-export default function Input({color, ...props}) {
+export default function Input(props: any) {
     return (
-        <input className={input({ color })} {...props}>
-            {props.children}
-        </input>
+        <input className={input(props)} type={props.type} placeholder={props.placeholder} />
     )
 }

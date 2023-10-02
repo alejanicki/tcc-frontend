@@ -1,7 +1,12 @@
+import Menu from "@/components/menu"
+
 export default function Deposit() {
     return(
-        <div>
-            <h1>TESTE</h1>
-        </div>
+        <main className="bg-darkGrey-500 w-screen h-screen">
+            <Menu />
+            <div>
+
+            </div>
+        </main>
     )
 }

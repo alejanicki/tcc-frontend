@@ -2,19 +2,22 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import "@fontsource/audiowide";
 
 export default function Menu() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState("Username")
   const pathname = usePathname();
 
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
 
+
   return (
     <main>
       <div
-        className="bg-darkGrey-500 w-14 h-14 rounded-xl ml-4 mt-4 flex flex-col justify-center items-center border-2 border-primary-500 fixed z-10"
+        className="bg-darkGrey-500 w-14 h-14 rounded-xl ml-4 mt-4 flex flex-col justify-center items-center border-2 border-primary-500 fixed z-10 md:w-20 md:h-20 md:ml-8 md:mt-8 lg:hidden"
         onClick={handleClick}
       >
         <div>
@@ -36,18 +39,26 @@ export default function Menu() {
         </div>
       </div>
       <div
-        className={`bg-white h-screen w-4/5 rounded-lg flex flex-col transition-all duration-300 ease-in ${
-          isOpen ? "w-0" : "-translate-x-full"
-        }`}
+        className={`bg-white h-screen max-h-screen w-4/5 rounded-lg flex flex-col transition-all duration-300 ease-in fixed ${
+          isOpen ? "w-0 lg:w-4/12" : "-translate-x-full lg:-translate-x-0"
+        } lg:w-1/3`}
       >
-        <div className="flex flex-col h-1/4 w-3/4 text-center justify-between m-auto text-primary-500 relative">
+        <div className={`flex flex-col mx-auto mt-4 -mb-20 text-center md:mt-14 ${pathname == "/profile" ? "hidden" : ""}`}>
+          <div className="bg-darkGrey-500 rounded-full flex justify-center pt-16 w-20 h-20 m-auto md:w-40 md:h-40">
+            <img src="../../public/img/userPhoto.png" alt="user photo" />
+          </div>
+          <div className="text-primary-500 font-audiowide text-2xl mt-5 md:text-5xl">
+            <h1>{user}</h1>
+          </div>
+        </div>
+        <div className="flex flex-col h-1/3 w-3/4 text-center justify-between m-auto text-primary-500 md:text-3xl">
           <Link
             href={"/profile"}
             className={`h-10 pt-2 ${
               pathname == "/profile"
                 ? "bg-primary-500 rounded-xl text-white"
                 : "bg-transparent"
-            }`}
+            } md:h-20 md:pt-5`}
           >
             <h1>Meu Perfil</h1>
           </Link>
@@ -57,21 +68,26 @@ export default function Menu() {
               pathname == "/deposit"
                 ? "bg-primary-500 rounded-xl text-white"
                 : "bg-transparent"
-            }`}
+            } md:h-20 md:pt-5`}
           >
             <h1>Depositar</h1>
           </Link>
           <Link
             href={"/points"}
             className={`h-10 pt-2 ${
-              pathname == "/profile"
+              pathname == "/points"
                 ? "bg-primary-500 rounded-xl text-white"
                 : "bg-transparent"
-            }`}
+            } md:h-20 md:pt-5`}
           >
             <h1>Trocar Pontos</h1>
           </Link>
         </div>
+          <div className="flex w-11/12 justify-end text-darkGrey-500 text-xl mb-2 md:text-4xl md:mb-5">
+            <Link href={"/"}>
+              <h1>Sair</h1>
+            </Link>
+          </div>
       </div>
     </main>
   );

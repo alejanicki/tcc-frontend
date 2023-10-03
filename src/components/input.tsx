@@ -6,7 +6,7 @@ const input = tv({
         color: {
             primary: "bg-transparent text-primary-500 border-b-darkGrey-500 border-b-2 placeholder:text-primary-500",
             secondary: "bg-none-500 text-primary-500 font-audiowide",
-            third: "bg-white text-primary-500 rounded-3xl border border-primary-500",
+            third: "bg-transparent rounded-3xl",
             disabledOne: "bg-lightGrey-500",
             disabledTwo: "bg-white text-lightGrey-500 rounded-3xl border border-lightGrey-500",
             success: "bg-emerald-500 text-white",

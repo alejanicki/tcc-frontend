@@ -1,7 +1,7 @@
 "use client";
 import Button from "@/components/button";
 import Input from "@/components/input";
-import Link from "next/link";
+import Menu from "@/components/menu";
 
 export default function Register() {
     const handleSubmit = (e: { preventDefault: () => void }) => {
@@ -11,6 +11,7 @@ export default function Register() {
 
     return (
         <main className="bg-lightGrey-500">
+            <Menu/>
             <div className="flex h-screen">
                 <div className="flex flex-col m-auto w-4/5 h-4/5 bg-white rounded-2xl ">
                     <div className="grid grid-cols-2 px-2 gap-1 w-full justify-around mt-8 md:mt-16 ">

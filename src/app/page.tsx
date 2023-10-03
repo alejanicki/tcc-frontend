@@ -1,4 +1,4 @@
-import Button from "@/components/buton";
+import Button from "@/components/button";
 import Link from "next/link";
 import "@fontsource/audiowide";
 

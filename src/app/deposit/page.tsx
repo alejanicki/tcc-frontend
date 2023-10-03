@@ -2,7 +2,7 @@
 import Menu from "@/components/menu";
 import Start from "./components/start";
 import Quantity from "./components/quantity";
-import Button from "@/components/buton";
+import Button from "@/components/button";
 import Insert from "./components/insert";
 import Thanks from "./components/thanks";
 import { useState } from "react";

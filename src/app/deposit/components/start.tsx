@@ -1,5 +1,5 @@
 "use client";
-import Button from "@/components/buton";
+import Button from "@/components/button";
 import { useRef } from "react";
 
 export default function Start(props: any) {

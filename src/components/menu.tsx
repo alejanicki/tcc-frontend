@@ -13,7 +13,6 @@ export default function Menu() {
     setIsOpen(!isOpen);
   };
 
-
   return (
     <main>
       <div
@@ -44,7 +43,7 @@ export default function Menu() {
         } lg:w-1/3`}
       >
         <div className={`flex flex-col mx-auto mt-4 -mb-20 text-center md:mt-14 ${pathname == "/profile" ? "hidden" : ""}`}>
-          <div className="bg-darkGrey-500 rounded-full flex justify-center pt-16 w-20 h-20 m-auto md:w-40 md:h-40">
+          <div className="bg-darkGrey-500 rounded-full flex justify-center pt-4 w-20 h-20 m-auto md:w-40 md:h-40 md:pt-16">
             <img src="../../public/img/userPhoto.png" alt="user photo" />
           </div>
           <div className="text-primary-500 font-audiowide text-2xl mt-5 md:text-5xl">

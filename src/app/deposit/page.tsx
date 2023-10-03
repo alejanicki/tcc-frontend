@@ -14,7 +14,7 @@ export default function Deposit() {
     const pageDisplay = () => {
         switch (display) {
             case 0:
-                return (<Start/>)
+                return (<Start setDisplay={setDisplay}/>)
             case 1:
                 return (<Quantity />)
             case 2:
@@ -27,22 +27,20 @@ export default function Deposit() {
     }
 
   return (
-    <main className="bg-darkGrey-500 w-screen h-screen">
+    <main className="bg-darkGrey-500 w-screen h-screen lg:grid lg:grid-cols-3 lg:auto-cols-auto">
       <Menu />
-      <div className="flex w-4/5 h-full mx-auto">
+      <div className="flex w-4/5 h-full mx-auto lg:col-span-2">
         <div className="bg-white max-h-full w-full my-10 rounded-3xl flex flex-col justify-center">
           <div className=" w-3/4 h-5/6 m-auto flex flex-col justify-between">
             {pageDisplay()}    
-            <div className={`w-full flex justify-end ${display == 0 ? "hidden" : ""}`}>
-              <div className="flex flex-row-reverse w-2/4 md:h-14 md:text-xl">
+            <div className={`w-full flex ${display != 3 ? "justify-end" : "justify-center" } ${display == 0 ? "hidden" : ""}`}>
+              <div className={`flex md:h-16 md:text-xl lg:text-3xl ${display != 3 ? "w-2/4 flex-row-reverse" : "flex-col mb-6 w-full md:mb-28"}`}>
                 <Button color="primary" onClick={() => {
                     setDisplay(display+1)
-                    console.log(display)
-                }}>Continuar</Button>
+                }}>{display != 3 ? "Continuar" : "Finalizar"}</Button>
                 <Button color="secondary" onClick={() => {
                     setDisplay(display-1)
-                    console.log(display)
-                }}>Voltar</Button>
+                }}>{display != 3 ? "Voltar" : "Depositar +"}</Button>
               </div>
             </div>
           </div>

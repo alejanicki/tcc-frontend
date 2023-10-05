@@ -1,4 +1,5 @@
 import "@fontsource/audiowide";
+import Item from "./components/item";
 
 export default function Points() {
     return(
@@ -7,8 +8,9 @@ export default function Points() {
                 <div className="w-full text-center text-primary-500 text-xl font-audiowide">
                     <h1>Escolha o seu item</h1>
                 </div>
-                <div>
+                <div className="mt-6">
                     <ul>
+                        <li><Item/></li>
                         <li><h1>ITEM</h1></li>
                         <li><h1>ITEM</h1></li>
                         <li><h1>ITEM</h1></li>

@@ -31,7 +31,7 @@ export default function Deposit() {
     }
 
   return (
-    <main className="bg-darkGrey-500 w-screen h-screen lg:grid lg:grid-cols-3 lg:auto-cols-auto">
+    <main className="bg-darkGrey-500 w-screen h-screen xl:grid xl:grid-cols-3 xl:auto-cols-auto">
       <Menu />
       <div className="flex w-4/5 h-full mx-auto lg:col-span-2">
         <div className="bg-white max-h-full w-full my-10 rounded-3xl flex flex-col justify-center">

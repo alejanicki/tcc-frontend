@@ -16,7 +16,7 @@ export default function Menu() {
   return (
     <main>
       <div
-        className="bg-darkGrey-500 w-14 h-14 rounded-xl ml-4 mt-4 flex flex-col justify-center items-center border-2 border-primary-500 fixed z-10 md:w-20 md:h-20 md:ml-8 md:mt-8 lg:hidden"
+        className="bg-darkGrey-500 w-14 h-14 rounded-xl ml-4 mt-4 flex flex-col justify-center items-center border-2 border-primary-500 fixed z-10 md:w-20 md:h-20 md:ml-8 md:mt-8 xl:hidden"
         onClick={handleClick}
       >
         <div>
@@ -39,7 +39,7 @@ export default function Menu() {
       </div>
       <div
         className={`bg-white h-screen max-h-screen w-4/5 rounded-lg flex flex-col transition-all duration-300 ease-in fixed ${
-          isOpen ? "w-0 lg:w-4/12" : "-translate-x-full lg:-translate-x-0"
+          isOpen ? "w-0 xl:w-4/12" : "-translate-x-full xl:-translate-x-0"
         } lg:w-1/3`}
       >
         <div className={`flex flex-col mx-auto mt-4 -mb-20 text-center md:mt-14 ${pathname == "/profile" ? "hidden" : ""}`}>

@@ -1,10 +1,14 @@
-import Button from "@/components/button";
 import Link from "next/link";
 import "@fontsource/audiowide";
+import Button from "@/components/button";
+import Head from "next/head";
 
 export default function Home() {
   return (
     <main className="bg-[url('../../public/img/bg-lp-mobile.png')] bg-cover w-screen h-screen xl:bg-[url('../../public/img/bg-lp.png')]">
+      <Head>
+        <title>GreenTech Solutions</title>
+      </Head>
       <div>
         <div className="min-w-screen min-h-screen grid grid-cols-2">
           <div className="flex-col m-auto text-center">

@@ -1,4 +1,5 @@
 "use client";
+import Head from "next/head";
 import Button from "@/components/button";
 import Input from "@/components/input";
 import Link from "next/link";
@@ -11,6 +12,9 @@ export default function Register() {
 
   return (
     <main className="bg-[url('../../public/img/bg-login-mobile.png')] bg-cover bg-center w-screen h-screen lg:bg-[url('../../public/img/bg-login.png')]">
+      <Head>
+        <title>Deposit</title>
+      </Head>
       <div className="flex h-screen">
         <div className="flex flex-col m-auto w-4/5 h-4/5 bg-darkGrey-500/30 rounded-2xl md:text-4xl lg:w-2/5">
           <div className="grid grid-cols-2 px-2 gap-1 w-full justify-around mt-8 md:mt-16 md:gap-10">

@@ -24,6 +24,8 @@ export default function Input(props: any) {
       id={props.id}
       name={props.name}
       type={props.type}
+      value={props.value}
+      defaultValue={props.defaultValue}
       placeholder={props.placeholder}
       onChange={props.onChange}
       required={props.required}

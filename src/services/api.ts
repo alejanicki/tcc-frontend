@@ -19,6 +19,15 @@ export const api = axios.create({
     
   };
 
+  export const countBatteries = () => {
+    return api.get("/deposit/battery-count")
+  }
+
+  export const createDeposit = () => {
+    console.log("deposito criado")
+    return api.post("/deposit/create")
+  }
+
   export const cepCheck = (cep: number) => {
     return axios.get(`https://viacep.com.br/ws/${cep}/json/`);
   };

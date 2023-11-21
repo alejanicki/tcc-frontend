@@ -7,6 +7,7 @@ import Insert from "../components/deposit/insert";
 import Thanks from "../components/deposit/thanks";
 import { useState } from "react";
 import { Private } from "@/components/private";
+import { createDeposit } from "@/services/api";
 
 export default function Deposit() {
   const [display, setDisplay] = useState(0);
@@ -49,9 +50,12 @@ export default function Deposit() {
                     color="primary"
                     onClick={() => {
                       setDisplay(display != 2 ? display + 1 : 0);
+                      if (display == 1) {
+                        createDeposit()
+                      }
                     }}
                   >
-                    {display != 2 ? "Continuar" : "Finalizar"}
+                    {display == 0 ? "Continuar" : "Finalizar"}
                   </Button>
                   <Button
                     color="secondary"

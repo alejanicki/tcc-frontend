@@ -18,6 +18,24 @@ export const checkToken = () => {
   return api.get("/user/read-id", token);
 };
 
+export const createUser = async (
+  name_user: string,
+  email: string,
+  password_user: string,
+  terms_conditions: boolean,
+  share_data: boolean
+) => {
+  const response = await api.post("/user/create", {
+    name_user,
+    email,
+    password_user,
+    terms_conditions,
+    share_data,
+  });
+
+  return response;
+};
+
 export const getUser = () => {
   // try {
   //   const { "nextauth.token": token }: any = parseCookies();
@@ -26,12 +44,12 @@ export const getUser = () => {
   //     headers: { Authorization: `Bearer ${token}` },
   //   });
 
-  //   return response.data; 
+  //   return response.data;
   // } catch (XMLHttpRequest) {
-  //   throw {'message': 'api conection failed'}; 
+  //   throw {'message': 'api conection failed'};
   // }
 
-  const response = { 
+  const response = {
     name: "Alessandro Janicki",
     email: "Alessandro@teste.com",
     address: null,
@@ -41,7 +59,7 @@ export const getUser = () => {
     state: null,
     oldPassword: null,
     newPassword: null,
-  }
+  };
 
   return response;
 };
@@ -56,11 +74,8 @@ export const createDeposit = () => {
 };
 
 export const cepCheck = async (cep: number) => {
-
   try {
     const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-    return response.data
-  } catch (error) {
-    
-  }
+    return response.data;
+  } catch (error) {}
 };

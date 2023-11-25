@@ -4,17 +4,22 @@ import Link from "next/link";
 import { AuthContext } from "@/contexts/auth";
 import Button from "@/components/button";
 import Input from "@/components/input";
-import { useForm  } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import Popup from "@/components/popup";
 
 export default function Login() {
   const { handleSubmit } = useForm();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signIn } = useContext(AuthContext);
+  const [isOpen, setIsOpen] = useState(false)
+  const [title, setTitle] = useState("title")
+  const [content, setContent] = useState("content")
 
   async function handleSignIn() {
-    const data = {email, password}
-    await signIn(data);
+    const data = { email, password };
+    const response = await signIn(data);
+    console.log(response)
   }
 
   return (
@@ -22,6 +27,12 @@ export default function Login() {
       <Head>
         <title>Login</title>
       </Head>
+      <Popup
+        isOpen={isOpen}
+        setOpen={setIsOpen}
+        title={title}
+        content={content}
+      />
       <div className="flex h-screen">
         <div className="flex flex-col m-auto w-4/5 h-4/5 bg-darkGrey-500/30 rounded-2xl md:text-4xl lg:w-2/5">
           <div className="grid grid-cols-2 px-2 gap-1 w-full justify-around mt-8 md:mt-16 md:gap-10">

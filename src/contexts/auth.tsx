@@ -33,7 +33,6 @@ export function AuthProvider({ children }: any) {
   }, []);
 
   async function signIn({ email, password }: SignInData) {
-    console.log(email, password)
     authLogin(email, password)
       .then((ress) => {
         const token = ress.data.access_token;

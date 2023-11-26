@@ -18,8 +18,7 @@ export default function Login() {
 
   async function handleSignIn() {
     const data = { email, password };
-    const response = await signIn(data);
-    console.log(response)
+    await signIn(data);
   }
 
   return (

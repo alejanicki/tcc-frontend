@@ -1,9 +1,19 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { parseCookies } from "nookies";
 
 export const api = axios.create({
   baseURL: "http://127.0.0.1:8000/",
 });
+
+export const getDate = () => {
+const dataAtual = new Date();
+
+const ano = dataAtual.getFullYear();
+const mes = dataAtual.getMonth() + 1; // Os meses começam do zero, então adicionamos 1
+const dia = dataAtual.getDate();
+
+return (`${ano}-${mes}-${dia}`)
+}
 
 export const authLogin = (email: string, password: string) => {
   const params = new URLSearchParams();
@@ -14,7 +24,6 @@ export const authLogin = (email: string, password: string) => {
 
 export const checkToken = () => {
   const { "nextauth.token": token }: any = parseCookies();
-
   return api.get("/user/read-id", token);
 };
 
@@ -36,41 +45,35 @@ export const createUser = async (
   return response;
 };
 
-export const getUser = () => {
-  // try {
-  //   const { "nextauth.token": token }: any = parseCookies();
-
-  //   const response = await api.get("/user/read-id", {
-  //     headers: { Authorization: `Bearer ${token}` },
-  //   });
-
-  //   return response.data;
-  // } catch (XMLHttpRequest) {
-  //   throw {'message': 'api conection failed'};
-  // }
-
-  const response = {
-    name: "Alessandro Janicki",
-    email: "Alessandro@teste.com",
-    address: null,
-    neighborhood: null,
-    cep: null,
-    city: null,
-    state: null,
-    oldPassword: null,
-    newPassword: null,
-  };
-
-  return response;
+export const getUserInfo = () => {
+  const { "nextauth.token": token }: any = parseCookies();
+  return api.get("/user/read-id", token);
 };
 
-export const countBatteries = () => {
-  return api.get("/deposit/battery-count");
+export const countBattery = () => {
+  const { "battery.quantity": insertQuantity }: any = parseCookies();
+  return axios.get(
+    `http://127.0.0.1:8000/deposit/battery-count?battery_quantity=${insertQuantity}`
+  );
 };
 
 export const createDeposit = () => {
-  console.log("deposito criado");
-  return api.post("/deposit/create");
+  getUserInfo().then((ress: any) => {
+    const { "valid.batteries": validBatteris }: any = parseCookies();
+    const userInfo = ress.data;
+    const earnedCredits = validBatteris * 1
+    const date = getDate()
+    const params = {
+      "date_deposit": date,
+      "id_user": userInfo.id,
+      "earned_credit": earnedCredits,
+      "id_battery": 3,
+      "number_of_batteries": validBatteris
+    }
+    api.post("/deposit/create", params).then((ress: any) => {
+      console.log(ress.data)
+    })
+  });
 };
 
 export const cepCheck = async (cep: number) => {

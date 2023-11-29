@@ -7,9 +7,16 @@ import CheckBox from "@/components/checkBox";
 import { useState } from "react";
 import { createUser } from "@/services/api";
 import Popup from "@/components/popup";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 const passwordRegex =
   /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).*(?=.*\d)(?=.*[A-Z]).{6,}$/;
+
+type Inputs = {
+  name_user: string;
+  email: string;
+  password_user: string;
+};
 
 export default function Register() {
   const [checkTerm, setCheckTerm] = useState(false);
@@ -19,57 +26,31 @@ export default function Register() {
   const [popupTitle, setPopupTitle] = useState("title");
   const [popupContent, setPopupContet] = useState("content");
 
-  const user = {
-    name_user: " ",
-    email: " ",
-    password_user: " ",
-    share_data: checkShare,
-    terms_conditions: checkTerm,
-  };
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    try {
-      const isValidPassword = passwordRegex.test(user.password_user);
-      if (isValidPassword) {
-        console.log(user)
-        if (checkTerm) {
-          const response = await createUser(
-            user.name_user,
-            user.email,
-            user.password_user,
-            user.terms_conditions,
-            user.share_data
-          );
+  const { register, handleSubmit } = useForm<Inputs>();
 
-          console.log(response)
-
-          if (response.status == 500) {
-            setPopupTitle("Erro!");
-            setPopupContet(
-              "Tivemos um problema interno mas logo será resolvido! =)"
-            );
-            setIsOpen(true);
-            return;
-          }
-
-          if (response.status == 422) {
-            setPopupTitle("Erro!");
-            setPopupContet("Email ja cadastrado!");
-            setIsOpen(true);
-          } else {
-            console.log("deu bom");
-          }
-        } else {
-          setcheckboxError(true);
-        }
-      } else {
-        setPopupTitle("Senha Invalida!");
-        setPopupContet(
-          "A senha não segue aos requisitos mínimos de:\n -1 caracter especial\n -1 letra maíuscula\n -1 numero\n -Conter no mínimo 6 caracteres"
-        );
-        setIsOpen(true);
-      }
-    } catch (error) {}
+  const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log();
+    // const isValidPassword = passwordRegex.test(user.password_user);
+    // if (isValidPassword) {
+    //   console.log(user);
+    //   if (checkTerm) {
+    //     createUser(
+    //       user.name_user,
+    //       user.email,
+    //       user.password_user,
+    //       user.terms_conditions,
+    //       user.share_data
+    //     );
+    //   } else {
+    //     setcheckboxError(true);
+    //   }
+    // } else {
+    //   setPopupTitle("Senha Invalida!");
+    //   setPopupContet(
+    //     "A senha não segue aos requisitos mínimos de:\n -1 caracter especial\n -1 letra maíuscula\n -1 numero\n -Conter no mínimo 6 caracteres"
+    //   );
+    //   setIsOpen(true);
+    // }
   };
 
   return (
@@ -95,37 +76,25 @@ export default function Register() {
           </div>
           <form
             className="flex flex-col mt-9 text-center mx-auto md:mt-16"
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
           >
             <h1 className=" text-4xl font-audiowide text-primary-500 md:text-6xl">
               Cadastro
             </h1>
             <div className="grid grid-rows-2 gap-8 h-36 mt-14 md:gap-10 md:h-60">
               <Input
+                {...register("name_user")}
+                id="name_user"
                 color="primary"
                 type="text"
                 placeholder="Nome completo"
-                onKeyUp={(e: any) => {
-                  user.name_user = e.target.value;
-                }}
                 required
               />
-              <Input
-                color="primary"
-                type="text"
-                placeholder="Email"
-                onKeyUp={(e: any) => {
-                  user.email = e.target.value;
-                }}
-                required
-              />
+              <Input color="primary" type="text" placeholder="Email" required />
               <Input
                 color="primary"
                 type="password"
                 placeholder="Senha"
-                onKeyUp={(e: any) => {
-                  user.password_user = e.target.value;
-                }}
                 required
               />
             </div>

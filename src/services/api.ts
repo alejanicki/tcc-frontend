@@ -1,19 +1,19 @@
-import axios, { AxiosRequestConfig } from "axios";
-import { parseCookies } from "nookies";
+import axios from "axios";
+import { parseCookies, setCookie } from "nookies";
 
 export const api = axios.create({
   baseURL: "http://127.0.0.1:8000/",
 });
 
 export const getDate = () => {
-const dataAtual = new Date();
+  const dataAtual = new Date();
 
-const ano = dataAtual.getFullYear();
-const mes = dataAtual.getMonth() + 1; // Os meses começam do zero, então adicionamos 1
-const dia = dataAtual.getDate();
+  const ano = dataAtual.getFullYear();
+  const mes = dataAtual.getMonth() + 1; // Os meses começam do zero, então adicionamos 1
+  const dia = dataAtual.getDate();
 
-return (`${ano}-${mes}-${dia}`)
-}
+  return `${ano}-${mes}-${dia}`;
+};
 
 export const authLogin = (email: string, password: string) => {
   const params = new URLSearchParams();
@@ -34,15 +34,15 @@ export const createUser = async (
   terms_conditions: boolean,
   share_data: boolean
 ) => {
-  const response = await api.post("/user/create", {
-    name_user,
-    email,
-    password_user,
-    terms_conditions,
-    share_data,
+  const params = new URLSearchParams();
+  params.append("name_user", name_user);
+  params.append("email", email);
+  params.append("password_user", password_user);
+  params.append("terms_conditions", terms_conditions.toString());
+  params.append("share_data", share_data.toString());
+  api.post("/user/create", params).then((ress: any) => {
+    console.log(ress.data);
   });
-
-  return response;
 };
 
 export const getUserInfo = () => {
@@ -61,18 +61,20 @@ export const createDeposit = () => {
   getUserInfo().then((ress: any) => {
     const { "valid.batteries": validBatteris }: any = parseCookies();
     const userInfo = ress.data;
-    const earnedCredits = validBatteris * 1
-    const date = getDate()
+    const earnedCredits = validBatteris * 1;
+    const date = getDate();
     const params = {
-      "date_deposit": date,
-      "id_user": userInfo.id,
-      "earned_credit": earnedCredits,
-      "id_battery": 3,
-      "number_of_batteries": validBatteris
-    }
+      date_deposit: date,
+      id_user: userInfo.id,
+      earned_credit: earnedCredits,
+      id_battery: 3,
+      number_of_batteries: validBatteris,
+    };
     api.post("/deposit/create", params).then((ress: any) => {
-      console.log(ress.data)
-    })
+      console.log(ress.data);
+      setCookie(undefined, "earned.credits", earnedCredits.toString());
+      setCookie(undefined, "deposited.batteries", ress.data.value);
+    });
   });
 };
 

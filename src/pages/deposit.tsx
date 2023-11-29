@@ -9,17 +9,30 @@ import { useState } from "react";
 import { Private } from "@/components/private";
 import { countBattery, createDeposit, getUserInfo } from "@/services/api";
 import { setCookie } from "nookies";
+import Popup from "@/components/popup";
 
 export default function Deposit() {
   const [display, setDisplay] = useState(0);
-  const [istQuantity, setIstQuantity] = useState("")
+  const [istQuantity, setIstQuantity] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [popupTitle, setPopupTitle] = useState("title");
+  const [popupContent, setPopupContet] = useState("content");
+  const [isBtnDisable, setIsBtnDisable] = useState(true);
 
   const pageDisplay = () => {
     switch (display) {
       case 0:
         return <Start setDisplay={setDisplay} />;
       case 1:
-        return <Quantity setIstQuantity={setIstQuantity}/>;
+        return (
+          <Quantity
+            setIstQuantity={setIstQuantity}
+            setOpen={setIsOpen}
+            setPopupTitle={setPopupTitle}
+            setPopupContet={setPopupContet}
+            setIsBtnDisable
+          />
+        );
       case 2:
         return <Insert />;
       case 3:
@@ -33,6 +46,14 @@ export default function Deposit() {
     <Private>
       <main className="bg-darkGrey-500 w-screen h-screen xl:grid xl:grid-cols-3 xl:auto-cols-auto">
         <Menu />
+        <div className="flex justify-center">
+          <Popup
+            isOpen={isOpen}
+            setOpen={setIsOpen}
+            title={popupTitle}
+            content={popupContent}
+          />
+        </div>
         <div className="flex w-4/5 h-full mx-auto lg:col-span-2">
           <div className="bg-white max-h-full w-full my-10 rounded-3xl flex flex-col justify-center">
             <div className=" w-3/4 h-5/6 m-auto flex flex-col justify-between">
@@ -53,18 +74,16 @@ export default function Deposit() {
                     color="primary"
                     onClick={() => {
                       setDisplay(display != 3 ? display + 1 : 0);
-                      if (display == 1) {  
-                        countBattery()
-                        .then((ress) => {
-                          const batteries = ress.data.count
-                          setCookie(undefined, "valid.batteries", batteries)
-                          console.log(batteries)                      
-                        })
-                        } else if (display == 2) { 
-                          createDeposit()
-                        }
+                      if (display == 1) {
+                        countBattery().then((ress) => {
+                          const batteries = ress.data.count;
+                          setCookie(undefined, "valid.batteries", batteries);
+                          console.log(batteries);
+                        });
+                      } else if (display == 2) {
+                        createDeposit();
                       }
-                    }
+                    }}
                   >
                     {display != 3 ? "Continuar" : "Finalizar"}
                   </Button>

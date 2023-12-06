@@ -31,18 +31,18 @@ export const createUser = async (
   name_user: string,
   email: string,
   password_user: string,
-  terms_conditions: boolean,
-  share_data: boolean
+  terms_conditions: string,
+  share_data: string
 ) => {
-  const params = new URLSearchParams();
-  params.append("name_user", name_user);
-  params.append("email", email);
-  params.append("password_user", password_user);
-  params.append("terms_conditions", terms_conditions.toString());
-  params.append("share_data", share_data.toString());
-  api.post("/user/create", params).then((ress: any) => {
-    console.log(ress.data);
-  });
+  const params = {
+    name_user: name_user,
+    email: email,
+    password_user: password_user,
+    terms_conditions: terms_conditions,
+    share_data: share_data,
+  };
+
+  return api.post("/user/create", params)
 };
 
 export const getUserInfo = () => {

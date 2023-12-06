@@ -5,18 +5,14 @@ import Input from "@/components/input";
 import Link from "next/link";
 import CheckBox from "@/components/checkBox";
 import { useState } from "react";
-import { createUser } from "@/services/api";
+import { api, authLogin, createUser } from "@/services/api";
 import Popup from "@/components/popup";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
+import { setCookie } from "nookies";
+import { useRouter } from "next/navigation";
 
 const passwordRegex =
   /^(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]).*(?=.*\d)(?=.*[A-Z]).{6,}$/;
-
-type Inputs = {
-  name_user: string;
-  email: string;
-  password_user: string;
-};
 
 export default function Register() {
   const [checkTerm, setCheckTerm] = useState(false);
@@ -25,32 +21,59 @@ export default function Register() {
   const [isOpen, setIsOpen] = useState(false);
   const [popupTitle, setPopupTitle] = useState("title");
   const [popupContent, setPopupContet] = useState("content");
+  const [token, setToken] = useState(null);
+  const nav = useRouter();
 
-  const { register, handleSubmit } = useForm<Inputs>();
+  const { register, handleSubmit, setValue } = useForm();
 
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log();
-    // const isValidPassword = passwordRegex.test(user.password_user);
-    // if (isValidPassword) {
-    //   console.log(user);
-    //   if (checkTerm) {
-    //     createUser(
-    //       user.name_user,
-    //       user.email,
-    //       user.password_user,
-    //       user.terms_conditions,
-    //       user.share_data
-    //     );
-    //   } else {
-    //     setcheckboxError(true);
-    //   }
-    // } else {
-    //   setPopupTitle("Senha Invalida!");
-    //   setPopupContet(
-    //     "A senha não segue aos requisitos mínimos de:\n -1 caracter especial\n -1 letra maíuscula\n -1 numero\n -Conter no mínimo 6 caracteres"
-    //   );
-    //   setIsOpen(true);
-    // }
+  const onSubmit = (data: any) => {
+    const isValidPassword = passwordRegex.test(data.password_user);
+    if (isValidPassword) {
+      if (checkTerm) {
+        createUser(
+          data.name_user,
+          data.email,
+          data.password_user,
+          checkTerm.toString(),
+          checkShare.toString()
+        )
+          .then((ress) => {
+            console.log(ress.status);
+            authLogin(data.email, data.password_user).then((ress) => {
+              const token = ress.data.access_token;
+              if (token) {
+                setCookie(undefined, "nextauth.token", token, {
+                  maxAge: 10, // 10 min
+                });
+              }
+              api.defaults.headers["Authorization"] = `Bearer ${token}`;
+              setToken(token);
+              nav.push("/deposit");
+            });
+          })
+          .catch((err: any) => {
+            console.log(err);
+            if (err.code == "ERR_NETWORK") {
+              setPopupTitle("Erro!");
+              setPopupContet("Erro de comunicação com o servidor");
+              setIsOpen(true);
+            }
+            if (err.response.status == 409) {
+              setPopupTitle("Erro!");
+              setPopupContet("O email já está sendo utilizado");
+              setIsOpen(true);
+            }
+          });
+      } else {
+        setcheckboxError(true);
+      }
+    } else {
+      setPopupTitle("Senha Invalida!");
+      setPopupContet(
+        "A senha não segue aos requisitos mínimos de:\n -1 caracter especial\n -1 letra maíuscula\n -1 numero\n -Conter no mínimo 6 caracteres"
+      );
+      setIsOpen(true);
+    }
   };
 
   return (
@@ -84,17 +107,26 @@ export default function Register() {
             <div className="grid grid-rows-2 gap-8 h-36 mt-14 md:gap-10 md:h-60">
               <Input
                 {...register("name_user")}
-                id="name_user"
                 color="primary"
                 type="text"
                 placeholder="Nome completo"
+                onChange={(e: any) => setValue("name_user", e.target.value)}
                 required
               />
-              <Input color="primary" type="text" placeholder="Email" required />
               <Input
+                {...register("email")}
+                color="primary"
+                type="email"
+                placeholder="Email"
+                onChange={(e: any) => setValue("email", e.target.value)}
+                required
+              />
+              <Input
+                {...register("password_user")}
                 color="primary"
                 type="password"
                 placeholder="Senha"
+                onChange={(e: any) => setValue("password_user", e.target.value)}
                 required
               />
             </div>
@@ -154,4 +186,7 @@ export default function Register() {
       </div>
     </main>
   );
+}
+function setToken(token: any) {
+  throw new Error("Function not implemented.");
 }

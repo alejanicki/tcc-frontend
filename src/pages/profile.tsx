@@ -3,15 +3,31 @@ import Button from "@/components/button";
 import Input from "@/components/input";
 import Menu from "@/components/menu";
 import { Private } from "@/components/private";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { cepCheck, getUser } from "@/services/api";
+import { cepCheck, getUserInfo } from "@/services/api";
 
 export default function Register() {
-  const { handleSubmit }: any = useForm();
+  const { handleSubmit, register, setValue } = useForm();
+  const [user, setUser]: any = useState();
+  const [cep, setCep]: any = useState();
 
-  const updateUser = () => {
-    console.log("submit");
+  useEffect(() => {
+    getUserInfo().then((ress: any) => {
+      setUser(ress.data);
+    });
+
+    if (cep != null) {
+      cepCheck(user.cep).then((ress) => {
+        setCep(ress.data);
+      });
+    }
+  });
+
+  const updateUser = (data: any) => {
+    console.log(user);
+    console.log(cep);
+    console.log(data);
   };
 
   return (
@@ -29,16 +45,29 @@ export default function Register() {
                 Usuário
               </h1>
               <div className="grid grid-rows-3 gap-6 h-26 mt-14 ml-2 mr-2">
-                <Input type="text" placeholder="Nome completo" />
-                <Input type="text" placeholder="Email" />
+                <Input
+                  {...register("name_user")}
+                  type="text"
+                  placeholder="Nome completo"
+                  onChange={(e: any) => {
+                    setValue("name_user", e.target.value);
+                  }}
+                  defaultValue={user ? `${user.name_user}` : ""}
+                />
+                <Input
+                  {...register("email")}
+                  type="text"
+                  placeholder="Email"
+                  defaultValue={user ? `${user.email}` : ""}
+                />
                 <div className="grid grid-cols-3 gap-6">
-                  <Input type="text" placeholder="CEP " />
-                  <Input type="text" placeholder="Cidade" />
-                  <Input type="text" placeholder="Estado" />
+                  <Input {...register("cep")} type="text" placeholder="CEP " />
+                  <Input type="text" placeholder="Cidade" disabled />
+                  <Input type="text" placeholder="Estado" disabled />
                 </div>
                 <div className="grid grid-cols-2 gap-6">
-                  <Input type="text" placeholder="Endereço" />
-                  <Input type="text" placeholder="Bairro" />
+                  <Input type="text" placeholder="Endereço" disabled />
+                  <Input type="text" placeholder="Bairro" disabled />
                 </div>
                 <Input type="text" placeholder="Senha Antiga" />
                 <Input type="text" placeholder="Nova Senha" />

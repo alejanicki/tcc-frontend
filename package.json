@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@fontsource/audiowide": "^5.0.12",
+    "@nextui-org/react": "^2.2.9",
     "axios": "^1.6.2",
+    "framer-motion": "^10.16.5",
     "next": "latest",
     "nookies": "^2.5.2",
     "react": "latest",

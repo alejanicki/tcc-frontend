@@ -1,4 +1,5 @@
-import { tv } from "tailwind-variants";
+import { ComponentProps } from "react";
+import { tv, VariantProps } from "tailwind-variants";
 
 const input = tv({
   base: "flex w-full h-full font-sm bg-darkGrey-500 rounded-md focus:outline-none px-2 py-0.5",
@@ -17,16 +18,8 @@ const input = tv({
   },
 });
 
-export default function Input(props: any) {
-  return (
-    <input
-      className={input(props)}
-      id={props.id}
-      name={props.name}
-      type={props.type}
-      placeholder={props.placeholder}
-      onChange={props.onChange}
-      required={props.required}
-    />
-  );
+type InputProps = ComponentProps<"input"> & VariantProps<typeof input>;
+
+export default function Input({ color, ...props }: InputProps) {
+  return <input className={input({ color })} {...props} />;
 }

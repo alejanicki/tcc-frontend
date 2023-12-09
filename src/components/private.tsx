@@ -7,10 +7,12 @@ export const Private = ({ children }: any) => {
 
   useEffect(() => {
     checkToken()
-      .then((ress) => {console.log(ress.data)})
+      .then((ress) => {
+        console.log(ress.data);
+      })
       .catch((err) => {
-        console.log(err)
-        nav.push("/login")
+        console.log(err);
+        nav.push("/login");
       });
   }, []);
 
